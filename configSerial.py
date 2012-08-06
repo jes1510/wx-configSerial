@@ -60,7 +60,8 @@ class configSerial(wx.Dialog):
         self.flowControl = self.port.flowControl
 
         # Init to defaults
-        self.portName = self.ports[0]	# Pick the first port
+        #self.portName = self.ports[0]	# Pick the first port
+        self.portName = self.port.name
         self.baud = str(self.port.baud)		# default 9600
         self.dataBits = str(self.port.dataBits)		
         self.parity = str(self.port.parity)
@@ -68,7 +69,7 @@ class configSerial(wx.Dialog):
         self.timeout = str(self.port.timeout)
 
         #   Build the box
-        wx.Dialog.__init__(self, self.parent, self.id, title, size=(225,325)) # second is vertical
+        wx.Dialog.__init__(self, self.parent, self.id, title, size=(260,275)) # second is vertical
 
         #   Vertical sizer with a bunch of horizontal sizers
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -79,6 +80,7 @@ class configSerial(wx.Dialog):
         sizer6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer7 = wx.BoxSizer(wx.HORIZONTAL)    
         sizer8 = wx.BoxSizer(wx.HORIZONTAL) 
+        sizer9 = wx.BoxSizer(wx.HORIZONTAL) 
   
         sizer.Add(sizer2, 0, wx.EXPAND)
         sizer.Add(sizer3, 0, wx.EXPAND)
@@ -87,6 +89,7 @@ class configSerial(wx.Dialog):
         sizer.Add(sizer6, 0, wx.EXPAND)
         sizer.Add(sizer7, 0, wx.EXPAND)   
         sizer.Add(sizer8, 0, wx.EXPAND) 
+        sizer.Add(sizer9, 0, wx.EXPAND) 
 
         #   Drop downs and text
         st1 = sizer2.Add(wx.StaticText(self, -1, 'Port', style=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL), 1, wx.EXPAND)
@@ -120,14 +123,15 @@ class configSerial(wx.Dialog):
 	# Button events
         doneButton = wx.Button(self, -1, 'Save Settings')
         cancelButton = wx.Button(self, -1, 'Cancel')
-        sizer.Add(doneButton, 0, wx.ALL|wx.ALIGN_CENTER, 5)  
-        sizer.Add(cancelButton, 0, wx.ALL|wx.ALIGN_CENTER, 5)  
+        sizer9.Add(doneButton, 0, wx.ALL, 5)  
+        sizer9.Add(cancelButton, 0, wx.ALL, 5)  
         self.Bind(wx.EVT_BUTTON, self.done,doneButton)
         self.Bind(wx.EVT_BUTTON, self.cancel,cancelButton)  
 
-        self.SetSizer(sizer)        
-        #self.flowCombo.SetValue(self.port.flowControl)
-         
+        self.SetSizer(sizer) 
+        
+        if self.port.name in self.ports :		
+	  self.portsCombo.SetValue(self.port.name)
         
     def showComError(self) :    
 	'''
@@ -264,6 +268,9 @@ class Port(wx.Dialog) :
 
 	  
     def saveOptions(self) :
+	'''
+	Writes the configuration to the config filename
+	'''
         self.configFile.Write("port", self.name)        
         self.configFile.WriteInt("baud", self.baud)
         self.configFile.WriteInt("dataBits", self.dataBits)
