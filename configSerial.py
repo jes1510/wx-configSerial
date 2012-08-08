@@ -170,22 +170,22 @@ class configSerial(wx.Dialog):
             self.port.rtscts = 1
             self.port.xonxoff = 0
             
-        if self.port.flowControl == "XONXOFF" :
+        elif self.port.flowControl == "XONXOFF" :
             self.port.rtscts = 0
             self.port.xonxoff = 0
 
-        if self.port.flowControl == "None" :
+        else :
             self.port.rtscts = 0  
-            self.port.xonxoff = 0
-            
-        if self.port.parity == 'None' :
-	   self.parity = serial.PARITY_NONE 
+            self.port.xonxoff = 0         
 	   
 	if self.port.parity == 'Even' :
 	   self.parity = serial.PARITY_EVEN
 	   
-	if self.port.parity == 'Odd' :
-	   self.parity = serial.PARITY_ODD 	  
+	elif self.port.parity == 'Odd' :
+	   self.parity = serial.PARITY_ODD 
+	   
+	else:
+	   self.parity = serial.PARITY_NONE
 	
 
         if self.ports != "No Ports Found" :
@@ -243,7 +243,7 @@ class Port(wx.Dialog) :
         self.name = '/dev/ttyACM0'		# Serial port name
         self.baud = 9600		        # Baud rate
         self.dataBits = 8			# data bits 
-        self.parity = 'NONE'			# Whether or not to use parity
+        self.parity = 'None'			# Whether or not to use parity
         self.stopBits = 1			# Number of stop bits
         self.timeout = 1000			# Serial port timeout in seconds
         self.xonxoff = 0			# XONXOFF flow control, 0=off, 1=on
