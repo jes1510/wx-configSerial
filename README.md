@@ -21,5 +21,4 @@ August 5 , 2012
 ConfigSerial is a helper module to encapsulate the configuration of a serial port using wxPython and pySerial.  It 
 creates a configuration file that contains the configuration data.  The name of the configuration file can be specified 
 on instantiation and it is stored in the users home directory by default.  It should be a hidden file so that means
-that it will add a '.' to the front of the file name in Linux.  I'm not sure how windows handles this but it should
-be supported.  
+that it will add a '.' to the front of the file name in Linux.  Windows will generate a registry key for each configuration key.
